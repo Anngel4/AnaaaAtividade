@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import db from '../database/database';
 
     // Recebemos 'route' e 'navigation' por padrão do React Navigation
     export function TelaPergaminho({ route, navigation }) {
@@ -28,6 +29,12 @@ import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'reac
       if (isNaN(numeroXp)) {
         throw new Error("O valor de XP deve ser apenas numérico!");
       }
+
+      // SALVANDO NO SQLITE
+      db.runSync(
+        'INSERT INTO missoes (titulo, xp) VALUES (?, ?)',
+        [titulo, numeroXp]
+      );
 
       // SAÍDA: Mostrando sucesso ao usuário
       Alert.alert("Sucesso!", "Missão registrada no diário.");
@@ -63,6 +70,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'reac
       />
 
 {/* 2.2.1 Evento de clique para ativar a função salvarMissao */}
+      
       <TouchableOpacity style={styles.botaoSalvar} onPress={salvarMissao}>
         <Text style={styles.textoBotao}>Salvar Missão</Text>
       </TouchableOpacity>

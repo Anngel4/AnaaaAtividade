@@ -1,27 +1,43 @@
-import React from "react";
-import {NavigationContainer} from '@react-navigation/native'
-import {createStackNavigator} from '@react-navigation/stack'
+import React, { useEffect } from 'react';
+import 'react-native-gesture-handler';
 
-import TelaTaverna from './src/screens/TelaTaverna'
-import {TelaPergaminho} from './src/screens/TelaPergaminho'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import { criarTabela } from './src/database/database';
+
+import TelaTaverna from './src/screens/TelaTaverna';
+import { TelaPergaminho } from './src/screens/TelaPergaminho';
 
 const Stack = createStackNavigator();
 
-export default function App(){
-  return(
+export default function App() {
+
+  useEffect(() => {
+    criarTabela();
+  }, []);
+
+  return (
+
     <NavigationContainer>
+
       <Stack.Navigator initialRouteName="Taverna">
+
         <Stack.Screen
-        name="Taverna"
-        component={TelaTaverna}
-        options={{title: 'Diário de missões'}}
+          name="Taverna"
+          component={TelaTaverna}
+          options={{ title: 'Diário de Missões' }}
         />
+
         <Stack.Screen
-        name="Pergaminho"
-        component={TelaPergaminho}
-        options={{title: 'Nova missão'}}
+          name="Pergaminho"
+          component={TelaPergaminho}
+          options={{ title: 'Nova Missão' }}
         />
+
       </Stack.Navigator>
+
     </NavigationContainer>
-  )
+
+  );
 }
